@@ -1,0 +1,15 @@
+@use "useful" as *;
+
+body {
+  color: colors(text);
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}

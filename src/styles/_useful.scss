@@ -1,0 +1,62 @@
+@use "sass:math";
+
+$colors: (
+  primary: #34b3a5,
+  text: #666,
+) !default;
+
+$breakpoints: (
+  'sp': (
+    max-width: 767px,
+  ),
+  'pc': (
+    min-width: 768px,
+  ),
+) !default;
+
+@mixin res($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media screen and #{inspect(map-get($breakpoints, $breakpoint))} {
+      @content;
+    }
+  }
+
+  // マップ型で定義されていない値が呼び出された時はエラーを返す
+  @else {
+    @error "指定されたブレークポイントは定義されていません。" + "指定できるブレークポイントは次のとおりです。 -> #{map-keys($breakpoints)}";
+  }
+}
+
+@mixin fz($size: 16, $lh: false) {
+  font-size: math.div($size, 16) * 1rem;
+
+  @if ($lh) {
+    line-height: $lh / $size;
+  } @else {
+    line-height: 1.75;
+  }
+}
+
+@function spacing($val1, $val2: false, $val3: false, $val4: false) {
+  $base: 8;
+
+  @if ($val4) {
+    @return (($val1 * $base) * 1px) (($val2 * $base) * 1px) (($val3 * $base) * 1px)
+      (($val4 * $base) * 1px);
+  }
+
+  @if ($val3) {
+    @return (($val1 * $base) * 1px) (($val2 * $base) * 1px) (($val3 * $base) * 1px)
+      (($val2 * $base) * 1px);
+  }
+
+  @if ($val2) {
+    @return (($val1 * $base) * 1px) (($val2 * $base) * 1px);
+  }
+
+  @return (($val1 * $base) * 1px);
+}
+
+@function colors($key) {
+  @return map-get($colors, $key);
+}
